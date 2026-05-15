@@ -111,3 +111,11 @@ applyTo: '**/*.xaml, **/*.cs'
 - Memory leaks from unsubscribed events; always unsubscribe and dispose resources.
 - Deeply nested layouts hurt performance; flatten the visual hierarchy.
 - Testing only on emulators misses real-device edge cases; test on physical devices.
+
+This repository uses .NET MAUI with CommunityToolkit packages.
+
+- Prefer `CommunityToolkit.Mvvm` for view models, observable properties, and commands.
+- Keep MAUI pages thin: bindings in XAML, state and behavior in view models.
+- Prefer compiled bindings with `x:DataType` when a page has a dedicated view model.
+- Use `CommunityToolkit.Maui` helpers, behaviors, converters, and controls when they simplify the UI without adding custom plumbing.
+- Follow the starter pattern in `MainPage` and `ViewModels/MainPageViewModel` for incremental MVVM adoption instead of broad refactors.
