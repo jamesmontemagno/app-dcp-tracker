@@ -1,16 +1,18 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DCPTracker.Services;
 
 namespace DCPTracker;
 
 public partial class App : Application
 {
-	public App()
+	private readonly AppShell appShell;
+
+	public App(AppShell appShell, IThemePreferenceService themePreferenceService)
 	{
 		InitializeComponent();
+		this.appShell = appShell;
+		themePreferenceService.ApplySavedTheme();
 	}
 
 	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		return new Window(new AppShell());
-	}
+		=> new(appShell);
 }

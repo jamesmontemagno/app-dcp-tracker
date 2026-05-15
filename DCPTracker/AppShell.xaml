@@ -3,12 +3,21 @@
     x:Class="DCPTracker.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:DCPTracker"
+    xmlns:views="clr-namespace:DCPTracker.Views"
     Title="DCPTracker">
 
+    <TabBar>
+        <ShellContent x:Name="DashboardPageContent" Title="Dashboard" ContentTemplate="{DataTemplate views:DashboardPage}" Route="DashboardPage" />
+        <ShellContent Title="Data" ContentTemplate="{DataTemplate views:DataPage}" Route="DataPage" />
+        <ShellContent Title="Goals" ContentTemplate="{DataTemplate views:GoalsPage}" Route="GoalsPage" />
+        <ShellContent Title="Timeline" ContentTemplate="{DataTemplate views:TimelinePage}" Route="TimelinePage" />
+    </TabBar>
+
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        x:Name="OnboardingPageContent"
+        Title="Welcome"
+        ContentTemplate="{DataTemplate views:OnboardingPage}"
+        Route="OnboardingPage"
+        Shell.NavBarIsVisible="False" />
 
 </Shell>
