@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
 using DCPTracker.Services;
 using DCPTracker.ViewModels;
 using DCPTracker.Views;
@@ -8,44 +8,43 @@ namespace DCPTracker;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
 
-		builder.Services.AddSingleton<IDemoModeService, DemoModeService>();
-		builder.Services.AddSingleton<SqliteAccountRepository>();
-		builder.Services.AddSingleton<DemoAccountRepository>();
-		builder.Services.AddSingleton<IAccountRepository, DemoAwareAccountRepository>();
-		builder.Services.AddSingleton<SqlitePlanningEventRepository>();
-		builder.Services.AddSingleton<DemoPlanningEventRepository>();
-		builder.Services.AddSingleton<IPlanningEventRepository, DemoAwarePlanningEventRepository>();
-		builder.Services.AddSingleton<IDashboardPreferencesService, DashboardPreferencesService>();
-		builder.Services.AddSingleton<IAccountImportService, AccountImportService>();
-		builder.Services.AddSingleton<IAlertService, AlertService>();
-		builder.Services.AddSingleton<IScenarioProjectionService, ScenarioProjectionService>();
-		builder.Services.AddSingleton<IThemePreferenceService, ThemePreferenceService>();
-		builder.Services.AddSingleton<IOnboardingStateService, OnboardingStateService>();
-		builder.Services.AddSingleton<AppShell>();
-		builder.Services.AddSingleton<OnboardingViewModel>();
-		builder.Services.AddSingleton<OnboardingPage>();
-		builder.Services.AddSingleton<MainPageViewModel>();
-		builder.Services.AddSingleton<DashboardPage>();
-		builder.Services.AddSingleton<DataPage>();
-		builder.Services.AddSingleton<GoalsPage>();
-		builder.Services.AddSingleton<TimelinePage>();
+        // Services
+        builder.Services.AddSingleton<IDeferralBucketRepository, SqliteDeferralBucketRepository>();
+        builder.Services.AddSingleton<IDistributionProjectionService, DistributionProjectionService>();
+        builder.Services.AddSingleton<IGoalsService, GoalsService>();
+        builder.Services.AddSingleton<IThemePreferenceService, ThemePreferenceService>();
+
+        // Shell
+        builder.Services.AddSingleton<AppShell>();
+
+        // ViewModels
+        builder.Services.AddSingleton<DashboardViewModel>();
+        builder.Services.AddSingleton<BucketsViewModel>();
+        builder.Services.AddSingleton<ProjectionsViewModel>();
+        builder.Services.AddSingleton<SettingsViewModel>();
+
+        // Views
+        builder.Services.AddSingleton<DashboardPage>();
+        builder.Services.AddSingleton<BucketsPage>();
+        builder.Services.AddSingleton<ProjectionsPage>();
+        builder.Services.AddSingleton<SettingsPage>();
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
-	}
+        return builder.Build();
+    }
 }

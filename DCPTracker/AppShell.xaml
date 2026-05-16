@@ -7,17 +7,10 @@
     Title="DCPTracker">
 
     <TabBar>
-        <ShellContent x:Name="DashboardPageContent" Title="Dashboard" ContentTemplate="{DataTemplate views:DashboardPage}" Route="DashboardPage" />
-        <ShellContent Title="Data" ContentTemplate="{DataTemplate views:DataPage}" Route="DataPage" />
-        <ShellContent Title="Goals" ContentTemplate="{DataTemplate views:GoalsPage}" Route="GoalsPage" />
-        <ShellContent Title="Timeline" ContentTemplate="{DataTemplate views:TimelinePage}" Route="TimelinePage" />
+        <ShellContent Title="Dashboard" ContentTemplate="{DataTemplate views:DashboardPage}" Route="DashboardPage" />
+        <ShellContent Title="Buckets" ContentTemplate="{DataTemplate views:BucketsPage}" Route="BucketsPage" />
+        <ShellContent Title="Projections" ContentTemplate="{DataTemplate views:ProjectionsPage}" Route="ProjectionsPage" />
+        <ShellContent Title="Settings" ContentTemplate="{DataTemplate views:SettingsPage}" Route="SettingsPage" />
     </TabBar>
-
-    <ShellContent
-        x:Name="OnboardingPageContent"
-        Title="Welcome"
-        ContentTemplate="{DataTemplate views:OnboardingPage}"
-        Route="OnboardingPage"
-        Shell.NavBarIsVisible="False" />
 
 </Shell>
