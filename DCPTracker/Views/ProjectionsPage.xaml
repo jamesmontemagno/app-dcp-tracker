@@ -15,9 +15,10 @@
             <Label Text="{Binding WeightedAverageReturnLabel}" FontSize="13" />
             <Label Text="{Binding SummaryMessage}" FontSize="12" />
 
-            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
-                <Label Text="Show tax-adjusted" VerticalOptions="Center" />
-                <Switch Grid.Column="2" IsToggled="{Binding ShowTaxAdjusted}" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Label x:Name="TaxAdjustedLabel" Text="Show tax-adjusted amounts" VerticalOptions="Center" />
+                <Switch Grid.Column="1" IsToggled="{Binding ShowTaxAdjusted}"
+                        SemanticProperties.Description="Show tax-adjusted amounts" />
             </Grid>
         </VerticalStackLayout>
 

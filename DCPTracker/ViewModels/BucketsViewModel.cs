@@ -28,6 +28,7 @@ public partial class BucketsViewModel : ObservableObject
 
 	// ── Editor fields ─────────────────────────────────────────────────────────
 	[ObservableProperty] private DeferralBucket? selectedBucket;
+	[ObservableProperty] private BucketDisplayItem? selectedDisplayItem;
 	[ObservableProperty] private string labelInput = string.Empty;
 	[ObservableProperty] private string deferralYearInput = string.Empty;
 	[ObservableProperty] private string deferredAmountInput = string.Empty;
@@ -45,6 +46,8 @@ public partial class BucketsViewModel : ObservableObject
 
 	public string EditorTitle => SelectedBucket is null ? "Add deferral bucket" : "Edit bucket";
 	public string SaveLabel => SelectedBucket is null ? "Add bucket" : "Save changes";
+
+	partial void OnSelectedDisplayItemChanged(BucketDisplayItem? value) => SelectedBucket = value?.Bucket;
 
 	partial void OnSelectedBucketChanged(DeferralBucket? value)
 	{
