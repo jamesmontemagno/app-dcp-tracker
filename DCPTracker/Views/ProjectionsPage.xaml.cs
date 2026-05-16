@@ -1,8 +1,8 @@
 namespace DCPTracker.Views;
 
-public partial class DashboardPage : ContentPage
+public partial class ProjectionsPage : ContentPage
 {
-    public DashboardPage(ViewModels.DashboardViewModel viewModel)
+    public ProjectionsPage(ViewModels.ProjectionsViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
@@ -11,7 +11,7 @@ public partial class DashboardPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is ViewModels.DashboardViewModel vm)
+        if (BindingContext is ViewModels.ProjectionsViewModel vm)
         {
             _ = vm.LoadCommand.ExecuteAsync(null);
         }

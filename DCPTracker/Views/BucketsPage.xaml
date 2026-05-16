@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:DCPTracker.Models"
+    xmlns:viewModels="clr-namespace:DCPTracker.ViewModels"
+    x:Class="DCPTracker.Views.BucketsPage"
+    x:DataType="viewModels:BucketsViewModel"
+    Title="Buckets">
+
+    <Grid RowDefinitions="Auto,*" Padding="20,16" RowSpacing="14">
+
+        <!-- Editor panel -->
+        <ScrollView>
+            <VerticalStackLayout Spacing="14">
+                <Label Text="Deferral Buckets" FontAttributes="Bold" FontSize="28" SemanticProperties.HeadingLevel="Level1" />
+
+                <Border Padding="16" StrokeShape="RoundRectangle 8">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="{Binding EditorTitle}" FontAttributes="Bold" FontSize="18" SemanticProperties.HeadingLevel="Level2" />
+
+                        <Entry Placeholder="Label (e.g. 2023 Deferral)" Text="{Binding LabelInput}" />
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Entry Placeholder="Deferral year" Keyboard="Numeric" Text="{Binding DeferralYearInput}" />
+                            <Entry Grid.Column="1" Placeholder="Deferred amount" Keyboard="Numeric" Text="{Binding DeferredAmountInput}" />
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <DatePicker Date="{Binding DistributionStartDate}" />
+                            <Entry Grid.Column="1" Placeholder="Distribution months" Keyboard="Numeric" Text="{Binding DistributionMonthsInput}" />
+                        </Grid>
+
+                        <!-- Investment allocation sub-editor -->
+                        <Label Text="Investment allocations" FontAttributes="Bold" FontSize="15" Margin="0,6,0,0" />
+                        <Grid ColumnDefinitions="2*,*,*,Auto" ColumnSpacing="6">
+                            <Entry Placeholder="Fund name" Text="{Binding FundNameInput}" />
+                            <Entry Grid.Column="1" Placeholder="Alloc %" Keyboard="Numeric" Text="{Binding AllocationPercentInput}" />
+                            <Entry Grid.Column="2" Placeholder="Return %" Keyboard="Numeric" Text="{Binding AnnualReturnInput}" />
+                            <Button Grid.Column="3" Text="+" Command="{Binding AddInvestmentCommand}"
+                                    SemanticProperties.Description="Add investment allocation"
+                                    WidthRequest="44" />
+                        </Grid>
+
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding PendingInvestments}" Spacing="4">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:InvestmentAllocation">
+                                    <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="6">
+                                        <Label Text="{Binding FundName}" VerticalOptions="Center" />
+                                        <Label Grid.Column="1" Text="{Binding AllocationPercent, StringFormat='{0:0.#}%'}" FontSize="12" VerticalOptions="Center" />
+                                        <Label Grid.Column="2" Text="{Binding ExpectedAnnualReturnRate, StringFormat='ret {0:P1}'}" FontSize="12" VerticalOptions="Center" />
+                                        <Button Grid.Column="3" Text="✕" FontSize="12"
+                                                SemanticProperties.Description="Remove investment allocation"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BucketsViewModel}}, Path=RemoveInvestmentCommand}"
+                                                CommandParameter="{Binding .}"
+                                                WidthRequest="36" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+
+                        <!-- Action buttons -->
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                            <Button Text="{Binding SaveLabel}" Command="{Binding SaveBucketCommand}" />
+                            <Button Grid.Column="1" Text="New" Command="{Binding StartNewBucketCommand}" />
+                            <Button Grid.Column="2" Text="Delete" Command="{Binding DeleteSelectedBucketCommand}" />
+                        </Grid>
+
+                        <Label Text="{Binding ValidationMessage}" TextColor="#B42318" FontSize="12" />
+                        <Label Text="{Binding StatusMessage}" FontSize="12" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bucket list -->
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Buckets}"
+            SelectedItem="{Binding SelectedDisplayItem}"
+            SelectionMode="Single">
+            <CollectionView.EmptyView>
+                <Label Padding="12" Text="No buckets yet. Add your first deferral bucket above." HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:BucketDisplayItem">
+                    <Border Padding="14" StrokeShape="RoundRectangle 8" Margin="0,0,0,10">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                            <Label Text="{Binding Label}" FontAttributes="Bold" FontSize="16" />
+                            <Label Grid.Column="1" Text="{Binding ProjectedBalanceLabel}" FontAttributes="Bold" HorizontalTextAlignment="End" />
+                            <Label Grid.Row="1" Text="{Binding DeferredAmount, StringFormat='Deferred: {0:C0}'}" FontSize="12" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding EstimatedMonthlyLabel, StringFormat='{0}/mo'}" FontSize="12" HorizontalTextAlignment="End" />
+                            <Label Grid.Row="2" Text="{Binding DistributionStartLabel, StringFormat='Starts: {0}'}" FontSize="12" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding DistributionMonths, StringFormat='{0} months'}" FontSize="12" HorizontalTextAlignment="End" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
